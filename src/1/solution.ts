@@ -12,7 +12,7 @@ const task2 = (input: number[]) => input.reduce((prev, cur, i) => {
   return [...prev, w]
 }, [])
 
-const input = readLinesToArray("src/1/1.txt").map(Number)
+const input = readLinesToArray("src/1/input.txt").map(Number)
 const start1 = performance.now()
 const result1 = task1(input)
 const finish1 = performance.now() - start1
