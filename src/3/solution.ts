@@ -1,6 +1,6 @@
 import { readLinesToArray } from "../utils";
 
-const mostCommonBits = (input: string[]): number[] => {
+const mostCommonBits = (input: string[]): string[] => {
   // Initialize each bit sum to zero
   const bitSums = new Array(input[0].length).fill(0);
 
@@ -12,20 +12,21 @@ const mostCommonBits = (input: string[]): number[] => {
   });
 
   return bitSums.map((bit) => {
-    return Math.round(bit / input.length);
+    return Math.round(bit / input.length).toString();
   });
 };
 
-const invertBits = (input: number[]): number[] =>
-  input.map((x) => (x == 0 ? 1 : 0));
+const invertBits = (input: string[]): string[] =>
+  input.map((x) => (x == "0" ? "1" : "0"));
 
-const byteToInt = (byte: number[] |string[]): number => parseInt(byte.join(""), 2);
+const binaryToInt = (byte: string): number =>
+  parseInt(byte, 2);
 
 const task1 = (input: string[]) => {
   const mostCommon = mostCommonBits(input);
   const leastCommon = invertBits(mostCommon);
-  const gammaRate = byteToInt(mostCommon);
-  const epsilonRate = byteToInt(leastCommon);
+  const gammaRate = binaryToInt(mostCommon.join(""));
+  const epsilonRate = binaryToInt(leastCommon.join(""));
 
   return gammaRate * epsilonRate;
 };
@@ -34,32 +35,26 @@ const task2 = (input: string[]) => {
   let i = 0;
   let ogr = [...input];
   let co2sr = [...input];
-  
+
   while (i < input[i].length) {
     const ogrBits = mostCommonBits(ogr);
     const co2srBits = invertBits(mostCommonBits(co2sr));
 
     if (ogr.length > 1) {
-      if (ogr.length === 2) {
-        ogr.filter((o) =>  o[i] === "1");
-      }
-      ogr = ogr.filter((o) =>  o[i] === ogrBits[i].toString());
+      ogr = ogr.filter((o) => o[i] === ogrBits[i].toString());
     }
 
     if (co2sr.length > 1) {
-      if (co2sr.length === 2) {
-        co2sr = co2sr.filter((c) =>  c[i] === "0");
-      }
       co2sr = co2sr.filter((c) => c[i] === co2srBits[i].toString());
     }
-    
+
     i++;
   }
-  
-  const oxygenGeneratorRating = byteToInt(ogr[0].split(""))
-  const co2ScrubberRating = byteToInt(co2sr[0].split(""))
 
-  return oxygenGeneratorRating * co2ScrubberRating
+  const oxygenGeneratorRating = binaryToInt(ogr[0]);
+  const co2ScrubberRating = binaryToInt(co2sr[0]);
+
+  return oxygenGeneratorRating * co2ScrubberRating;
 };
 
 const input = readLinesToArray("src/3/input.txt");
