@@ -1,3 +1,4 @@
+import * as path from "path";
 import { readLinesToArray } from "../utils";
 
 const mostCommonBits = (input: string[]): string[] => {
@@ -57,7 +58,7 @@ const task2 = (input: string[]) => {
   return oxygenGeneratorRating * co2ScrubberRating;
 };
 
-const input = readLinesToArray("src/3/input.txt");
+const input = readLinesToArray(path.join(__dirname, "input.txt"));
 const start1 = performance.now();
 const result1 = task1(input);
 const finish1 = performance.now() - start1;

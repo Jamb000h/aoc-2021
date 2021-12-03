@@ -1,3 +1,4 @@
+import * as path from "path"
 import { readLinesToArray } from "../utils"
 
 const task1 = (input: string[]) => {
@@ -41,7 +42,7 @@ const task2 = (input: string[]) => {
   return horizontalPosition * depth
 }
 
-const input = readLinesToArray("src/2/input.txt")
+const input = readLinesToArray(path.join(__dirname, "input.txt"));
 const start1 = performance.now()
 const result1 = task1(input)
 const finish1 = performance.now() - start1

@@ -1,3 +1,4 @@
+import * as path from "path"
 import { readLinesToArray } from "../utils"
 
 const task1 = (input: number[]) => input.filter((v, i) => {
@@ -12,7 +13,7 @@ const task2 = (input: number[]) => input.reduce((prev, cur, i) => {
   return [...prev, w]
 }, [])
 
-const input = readLinesToArray("src/1/input.txt").map(Number)
+const input = readLinesToArray(path.join(__dirname, "input.txt")).map(Number);
 const start1 = performance.now()
 const result1 = task1(input)
 const finish1 = performance.now() - start1
