@@ -1,8 +1,8 @@
-import { kStringMaxLength } from "buffer";
 import * as path from "path";
 import { readLinesToArray } from "../utils";
 
 type Line = { x1: number; x2: number; y1: number; y2: number };
+type PointKey = string;
 type Point = [number, number]; // [x, y]
 
 const toLine = (input: string): Line => {
@@ -19,7 +19,7 @@ const parseLines = (input: string[]): Line[] => {
   return input.map(toLine);
 };
 
-const pointKey = (p: Point) => `${p[0]}-${p[1]}`;
+const pointKey = (p: Point): PointKey => `${p[0]}-${p[1]}`;
 
 const isDiagonal = (line: Line): boolean =>
   line.x1 !== line.x2 && line.y1 !== line.y2;
@@ -50,26 +50,17 @@ const verticalPoints = (line: Line): Point[] => {
 
 const diagonalPoints = (line: Line): Point[] => {
   const points = [];
-  let x = line.x1
-  let y = line.y1
+  let x = line.x1;
+  let y = line.y1;
 
-  while(true) {
+  while (true) {
     points.push([x, y]);
-    if(x < line.x2) {
-      x++
-    } else {
-      x--
-    }
-    
-    if(y < line.y2) {
-      y++
-    } else {
-      y--
-    }
+    x += x < line.x2 ? 1 : -1;
+    y += y < line.y2 ? 1 : -1;
 
-    if(x === line.x2 && y === line.y2) {
-      points.push([x, y])
-      break
+    if (x === line.x2 && y === line.y2) {
+      points.push([x, y]);
+      break;
     }
   }
   return points;
@@ -82,6 +73,20 @@ const getCoveredPointsForLine = (line: Line): Point[] => {
   return [];
 };
 
+const coverage = (linePoints: PointKey[]) => {
+  const coveredPoints = {};
+  for (const lp of linePoints) {
+    if (!coveredPoints.hasOwnProperty(lp)) {
+      coveredPoints[lp] = 0;
+    }
+    coveredPoints[lp] = coveredPoints[lp] + 1;
+  }
+  return coveredPoints;
+};
+
+const overlappingPoints = (coveredPoints: any) =>
+  Object.values(coveredPoints).filter((x) => x >= 2);
+
 const task1 = (input: string[]) => {
   const lines = parseLines(input);
   let linePoints = lines
@@ -89,32 +94,16 @@ const task1 = (input: string[]) => {
     .map(getCoveredPointsForLine)
     .flat()
     .map(pointKey);
-  const coveredPoints = {};
-  for (const lp of linePoints) {
-    if (!coveredPoints.hasOwnProperty(lp)) {
-      coveredPoints[lp] = 0;
-    }
-    coveredPoints[lp] = coveredPoints[lp] + 1;
-  }
 
-  const overlaps = Object.values(coveredPoints).filter((x) => x >= 2);
+  const overlaps = overlappingPoints(coverage(linePoints));
   return overlaps.length;
 };
 
 const task2 = (input: string[]) => {
   const lines = parseLines(input);
-  let linePoints = lines
-    .map(getCoveredPointsForLine)
-    .flat()
-    .map(pointKey);
-  const coveredPoints = {};
-  for (const lp of linePoints) {
-    if (!coveredPoints.hasOwnProperty(lp)) {
-      coveredPoints[lp] = 0;
-    }
-    coveredPoints[lp] = coveredPoints[lp] + 1;
-  }
-  const overlaps = Object.values(coveredPoints).filter((x) => x >= 2);
+  const linePoints = lines.map(getCoveredPointsForLine).flat().map(pointKey);
+
+  const overlaps = overlappingPoints(coverage(linePoints));
   return overlaps.length;
 };
 
