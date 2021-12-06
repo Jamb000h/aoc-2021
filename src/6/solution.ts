@@ -1,17 +1,15 @@
 import * as path from "path";
-import { readFile } from "../utils";
+import { readFile, sumOf } from "../utils";
 
 const iterate = (times: number, input: number[]): number => {
   const newFishesForDay = new Array(9).fill(0);
-  let totalFishes = input.length;
-  input.forEach((f) => (newFishesForDay[f] = newFishesForDay[f] + 1));
+  input.forEach((f) => (newFishesForDay[f] += 1));
   for (let i = 0; i < times; i++) {
     const dailyFishes = newFishesForDay.shift();
-    newFishesForDay.push(dailyFishes);
-    newFishesForDay[6] = newFishesForDay[6] + dailyFishes;
-    totalFishes += dailyFishes;
+    newFishesForDay[6] += dailyFishes; // Existing
+    newFishesForDay.push(dailyFishes); // Newborn
   }
-  return totalFishes;
+  return sumOf(newFishesForDay);
 };
 
 const task1 = (input: number[]) => iterate(80, input);
