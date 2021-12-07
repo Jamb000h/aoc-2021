@@ -17,8 +17,8 @@ Features:
 
 (omit npx if you have ts-node installed globally)
 
-`npx ts-node <day>`
+`npx ts-node index.ts <day>`
 
 where day is the day you want to solve, e.g.
 
-`npx ts-node 5`
+`npx ts-node index.ts 5`
