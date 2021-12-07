@@ -1,12 +1,4 @@
-import { readFileSync } from "fs";
-
-export const readLinesToArray = (filename: string) => {
-  return readFileSync(filename, "utf-8").trim().split("\r\n");
-};
-
-export const readFile = (filename: string) => {
-  return readFileSync(filename, "utf-8").trim();
-};
+export const getLines = (file: string): string[] => file.split("\r\n");
 
 export const sumOf = (numbers: number[]) => {
   return numbers.reduce((x, y) => x + y, 0);

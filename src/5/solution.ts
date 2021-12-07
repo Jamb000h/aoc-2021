@@ -1,5 +1,4 @@
-import * as path from "path";
-import { readLinesToArray } from "../utils";
+import { getLines } from "../utils";
 
 type Line = { x1: number; x2: number; y1: number; y2: number };
 type PointKey = string;
@@ -87,7 +86,11 @@ const coverage = (linePoints: PointKey[]) => {
 const overlappingPoints = (coveredPoints: any) =>
   Object.values(coveredPoints).filter((x) => x >= 2);
 
-const task1 = (input: string[]) => {
+export const parseInputForDay = (file: string) => {
+  return getLines(file);
+};
+
+export const task1 = (input: string[]) => {
   const lines = parseLines(input);
   let linePoints = lines
     .filter((x) => !isDiagonal(x))
@@ -99,24 +102,10 @@ const task1 = (input: string[]) => {
   return overlaps.length;
 };
 
-const task2 = (input: string[]) => {
+export const task2 = (input: string[]) => {
   const lines = parseLines(input);
   const linePoints = lines.map(getCoveredPointsForLine).flat().map(pointKey);
 
   const overlaps = overlappingPoints(coverage(linePoints));
   return overlaps.length;
 };
-
-const input = readLinesToArray(path.join(__dirname, "input.txt"));
-const start1 = performance.now();
-const result1 = task1(input);
-const finish1 = performance.now() - start1;
-
-const start2 = performance.now();
-const result2 = task2(input);
-const finish2 = performance.now() - start2;
-
-console.log("Task 1 time: ", finish1);
-console.log("Task 1 result: ", result1);
-console.log("Task 2 time: ", finish2);
-console.log("Task 2 result: ", result2);

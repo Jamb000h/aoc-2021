@@ -1,57 +1,46 @@
-import * as path from "path"
-import { readLinesToArray } from "../utils"
+import { getLines } from "../utils";
 
-const task1 = (input: string[]) => {
-  let [horizontalPosition, depth] = [0, 0]
+export const parseInputForDay = (file: string) => {
+  return getLines(file);
+};
+
+export const task1 = (input: string[]) => {
+  let [horizontalPosition, depth] = [0, 0];
   input.forEach((cmd) => {
-    const parts = cmd.split(" ")
-    const value = Number(parts[1])
-    switch(parts[0]) {
+    const parts = cmd.split(" ");
+    const value = Number(parts[1]);
+    switch (parts[0]) {
       case "forward":
-        horizontalPosition += value
+        horizontalPosition += value;
         break;
       case "down":
-        depth += value
+        depth += value;
         break;
       case "up":
-        depth -= value
+        depth -= value;
         break;
     }
-  })
-  return horizontalPosition * depth
-}
+  });
+  return horizontalPosition * depth;
+};
 
-const task2 = (input: string[]) => {
-  let [horizontalPosition, depth, aim] = [0, 0, 0]
+export const task2 = (input: string[]) => {
+  let [horizontalPosition, depth, aim] = [0, 0, 0];
   input.forEach((cmd) => {
-    const parts = cmd.split(" ")
-    const value = Number(parts[1])
-    switch(parts[0]) {
+    const parts = cmd.split(" ");
+    const value = Number(parts[1]);
+    switch (parts[0]) {
       case "forward":
-        horizontalPosition += value
-        depth += (aim * value)
+        horizontalPosition += value;
+        depth += aim * value;
         break;
       case "down":
-        aim += value
+        aim += value;
         break;
       case "up":
-        aim -= value
+        aim -= value;
         break;
     }
-  })
-  return horizontalPosition * depth
-}
-
-const input = readLinesToArray(path.join(__dirname, "input.txt"));
-const start1 = performance.now()
-const result1 = task1(input)
-const finish1 = performance.now() - start1
-
-const start2 = performance.now()
-const result2 = task2(input)
-const finish2 = performance.now() - start2
-
-console.log("Task 1 time: ", finish1)
-console.log("Task 1 result: ", result1)
-console.log("Task 2 time: ", finish2)
-console.log("Task 2 result: ", result2)
+  });
+  return horizontalPosition * depth;
+};

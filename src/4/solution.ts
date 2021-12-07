@@ -1,5 +1,4 @@
-import * as path from "path";
-import { readLinesToArray, sumOf } from "../utils";
+import { getLines, sumOf } from "../utils";
 
 type Row = number[];
 type Card = Row[];
@@ -87,7 +86,11 @@ const getWinningCard = (n: number[], cards: Cards): [number, number] => {
   return [-1, -1];
 };
 
-const task1 = (input: string[]) => {
+export const parseInputForDay = (file: string) => {
+  return getLines(file);
+};
+
+export const task1 = (input: string[]) => {
   const [n, cards] = parseBingoBoard(input);
   const [finalN, winningCard] = getWinningCard(n, cards);
 
@@ -95,7 +98,7 @@ const task1 = (input: string[]) => {
   return result * finalN;
 };
 
-const task2 = (input: string[]) => {
+export const task2 = (input: string[]) => {
   const [n, cards] = parseBingoBoard(input);
   while (cards.length > 0) {
     const [finalN, winningCard] = getWinningCard(n, cards);
@@ -106,17 +109,3 @@ const task2 = (input: string[]) => {
     cards.splice(winningCard, 1);
   }
 };
-
-const input = readLinesToArray(path.join(__dirname, "input.txt"));
-const start1 = performance.now();
-const result1 = task1(input);
-const finish1 = performance.now() - start1;
-
-const start2 = performance.now();
-const result2 = task2(input);
-const finish2 = performance.now() - start2;
-
-console.log("Task 1 time: ", finish1);
-console.log("Task 1 result: ", result1);
-console.log("Task 2 time: ", finish2);
-console.log("Task 2 result: ", result2);
