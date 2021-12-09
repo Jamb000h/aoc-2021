@@ -7,7 +7,9 @@ Features:
 - TypeScript
 - ES6 modules (import/export)
 - Timing for solutions and parsing
-- Simple CLI support (see below)
+- Simple CLI support
+  - Creates directory, solution template and an empty input file if not found
+  - Runs and times solutions for day
 
 ## Installation
 

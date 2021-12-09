@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync } from "fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import * as path from "path";
 
 const day = process.argv[2];
@@ -8,29 +8,53 @@ if (!day) {
   process.exit(0);
 }
 
+if (!(Number(day) > 0 && Number(day) <= 25)) {
+  console.log("Invalid day!");
+  process.exit(0);
+}
+
 // Check daily folder and files
 const dayRoot = path.join(__dirname, "src", day);
 const solutionPath = path.join(dayRoot, "solution.ts");
 const inputPath = path.join(dayRoot, "input.txt");
 
 if (!existsSync(dayRoot)) {
-  console.log("No folder for day " + day);
-  process.exit(0);
+  console.log("No folder for day", day);
+  try {
+    mkdirSync(dayRoot);
+  } catch (e) {
+    console.error("Could not create folder for day", day);
+    process.exit();
+  }
+  console.log("Created folder for day", day);
 }
 
 if (!existsSync(solutionPath)) {
-  console.log("No solution file for day " + day);
-  process.exit(0);
+  console.log("No solution file for day", day);
+  try {
+    writeFileSync(solutionPath, readFileSync("./solutionTemplate.ts"));
+  } catch (e) {
+    console.error("Could not create solution file for day", day);
+    process.exit(0);
+  }
+  console.log("Created solution file for day", day);
 }
 
 if (!existsSync(inputPath)) {
-  console.log("No input file for day " + day);
+  console.log("No input file for day", day);
+  try {
+    writeFileSync(inputPath, "");
+  } catch (e) {
+    console.error("Could not create input file for day", day);
+    process.exit(0);
+  }
+  console.log("Created input file for day", day);
   process.exit(0);
 }
 
 const inputFile = readFileSync(inputPath, "utf-8").trim();
 if (inputFile.length === 0) {
-  console.log("Input file for day " + day + " is empty!");
+  console.log("Input file for day", day, "is empty!");
   process.exit(0);
 }
 
