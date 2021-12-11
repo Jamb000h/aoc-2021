@@ -12,6 +12,29 @@ export const averageOf = (numbers: number[], floor = false) => {
   const avg = numbers.reduce((prev, cur) => prev + cur, 0) / numbers.length;
   return floor ? Math.floor(avg) : Math.round(avg);
 };
+
+export const inBounds2D = (y: number, x: number, grid: any[][]) => {
+  return y >= 0 && x >= 0 && y < grid.length && x < grid[y].length;
+};
+
+export const neighbors2D = (
+  y: number,
+  x: number,
+  grid: any[][],
+  diagonal = true
+) => {
+  const neighbors = [];
+  for (let ny = y - 1; ny <= y + 1; ny++) {
+    for (let nx = x - 1; nx <= x + 1; nx++) {
+      if (ny === y && nx === x) continue;
+      if (!diagonal && ny !== y && nx !== x) continue;
+      if (inBounds2D(ny, nx, grid)) {
+        neighbors.push([ny, nx]);
+      }
+    }
+  }
+  return neighbors;
+};
 declare global {
   interface Array<T> {
     sortAscending(): Array<T>;

@@ -61,19 +61,20 @@ if (inputFile.length === 0) {
 // Import daily parser and solvers
 import("./src/" + day + "/solution").then(
   ({ task1, task2, parseInputForDay }) => {
-    // Parse input
+    // Parse input -- Two copies to have one reference per task
     const parsingStart = performance.now();
-    const input = parseInputForDay(inputFile);
+    const input1 = parseInputForDay(inputFile);
     const parsingResult = performance.now() - parsingStart;
+    const input2 = parseInputForDay(inputFile);
 
     // Solve part 1
     const start1 = performance.now();
-    const result1 = task1(input);
+    const result1 = task1(input1);
     const finish1 = performance.now() - start1;
 
     // Solve part 2
     const start2 = performance.now();
-    const result2 = task2(input);
+    const result2 = task2(input2);
     const finish2 = performance.now() - start2;
 
     // Write results to console
