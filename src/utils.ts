@@ -118,29 +118,6 @@ export const bfs = (
   };
 };
 
-export const dfs = (
-  y: number,
-  x: number,
-  grid: any[][],
-  visited: boolean[][],
-  predicate: (y: number, x: number, grid: any[][]) => any,
-  diagonal = true
-) => {
-  const stack = [[y, x]];
-  while (stack.length > 0) {
-    const [currentY, currentX] = stack.pop();
-    if (predicate(currentY, currentX, grid)) {
-      return [currentY, currentX];
-    }
-
-    if (visited[currentY][currentX]) continue;
-    visited[currentY][currentX] = true;
-
-    const neighbors = neighbors2D(currentY, currentX, grid, diagonal);
-    neighbors.forEach((n) => stack.push(n));
-  }
-  return false;
-};
 declare global {
   interface Array<T> {
     sortAscending(): Array<T>;
