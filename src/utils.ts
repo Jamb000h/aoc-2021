@@ -13,8 +13,13 @@ export const averageOf = (numbers: number[], floor = false) => {
   return floor ? Math.floor(avg) : Math.round(avg);
 };
 
-export const inBounds2D = (y: number, x: number, grid: any[][]) => {
-  return y >= 0 && x >= 0 && y < grid.length && x < grid[y].length;
+export const inBounds2D = (y: number, x: number, grid: any[][], scale = 1) => {
+  return (
+    y >= 0 &&
+    x >= 0 &&
+    y < grid.length * scale &&
+    x < grid[y % scale].length * scale
+  );
 };
 
 export const inBounds3D = (
@@ -37,14 +42,15 @@ export const neighbors2D = (
   y: number,
   x: number,
   grid: any[][],
-  diagonal: boolean = true
+  diagonal: boolean = true,
+  scale = 1
 ): number[][] => {
   const neighbors = [];
   for (let ny = y - 1; ny <= y + 1; ny++) {
     for (let nx = x - 1; nx <= x + 1; nx++) {
       if (ny === y && nx === x) continue;
       if (!diagonal && ny !== y && nx !== x) continue;
-      if (inBounds2D(ny, nx, grid)) {
+      if (inBounds2D(ny, nx, grid, scale)) {
         neighbors.push([ny, nx]);
       }
     }
