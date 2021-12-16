@@ -76,5 +76,5 @@ export const task1 = (input: number[][]) => {
 };
 
 export const task2 = (input: number[][]) => {
-  return dijkstra(input, 5);
+  return dijkstra(input, 10);
 };
