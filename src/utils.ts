@@ -43,12 +43,13 @@ export const neighbors2D = (
   x: number,
   grid: any[][],
   diagonal: boolean = true,
-  scale = 1
+  scale = 1,
+  includeSelf: boolean = false
 ): number[][] => {
   const neighbors = [];
   for (let ny = y - 1; ny <= y + 1; ny++) {
     for (let nx = x - 1; nx <= x + 1; nx++) {
-      if (ny === y && nx === x) continue;
+      if (!includeSelf && ny === y && nx === x) continue;
       if (!diagonal && ny !== y && nx !== x) continue;
       if (inBounds2D(ny, nx, grid, scale)) {
         neighbors.push([ny, nx]);
